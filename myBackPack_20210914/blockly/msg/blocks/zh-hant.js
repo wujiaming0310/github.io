@@ -1,0 +1,13 @@
+Blockly.Msg.MYBACKPACK_ADD = "新增到暫存積木";
+Blockly.Msg.MYBACKPACK_REMOVE = "移除從暫存積木";
+Blockly.Msg.MYBACKPACK_REMOVE_ALL = "移除所有暫存積木";
+Blockly.Msg.MYBACKPACK_REMOVE_ALL_TITLE = "你確定要移除所有暫存積木？";
+Blockly.Msg.MYBACKPACK_IMPORT_FILE = "匯入暫存積木檔至暫存積木";
+Blockly.Msg.MYBACKPACK_IMPORT_WORKSPACE = "匯入工作區積木至暫存積木";
+Blockly.Msg.MYBACKPACK_IMPORT_WORKSPACE_TITLE = "你確定要從工作區積木匯入暫存積木？";
+Blockly.Msg.MYBACKPACK_WORKSPACE_EXPORT_FILE = "匯出工作區積木至暫存積木檔";
+Blockly.Msg.MYBACKPACK_MYBACKPACK_EXPORT_FILE = "匯出所有暫存積木至暫存積木檔";
+Blockly.Msg.MYBACKPACK_TITLE = "暫存積木";
+Blockly.Msg.INSERTBLOCKS_WORKSPACE_BLOCK_EXPORT = "匯出單一積木至檔案";
+Blockly.Msg.INSERTBLOCKS_WORKSPACE_BLOCK_INSERT = "開啟單一積木檔案插入至工作區";
+Blockly.Msg.EXPORTIMAGE = "下載圖片";
