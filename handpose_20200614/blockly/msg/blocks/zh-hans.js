@@ -1,0 +1,13 @@
+Blockly.Msg.HANDPOSE_POINT_SHOW = "手势侦测 (HandPose) 节点";
+Blockly.Msg.HANDPOSE_WIDTH_SHOW = "手势侦测 (HandPose) 视讯宽度";
+Blockly.Msg.HANDPOSE_HEIGHT_SHOW = "高度";
+Blockly.Msg.HANDPOSE_MIRRORIMAGE_SHOW = "镜像";
+Blockly.Msg.HANDPOSE_RESULT_SHOW = "结果";
+Blockly.Msg.HANDPOSE_SKELETON_SHOW = "骨架";
+Blockly.Msg.HANDPOSE_OPACITY_SHOW = "透明度";
+Blockly.Msg.HANDPOSE_DISTANCE_SHOW = "距离";
+Blockly.Msg.HANDPOSE_ANGLE_SHOW = "角度";
+Blockly.Msg.HANDPOSE_VIDEO_SHOW = "视讯";
+Blockly.Msg.HANDPOSE_STATE_SHOW = "手势侦测 (HandPose) 侦测状态";
+Blockly.Msg.HANDPOSE_VIDEO_LEFT_SHOW = "手势侦测 (HandPose) 视讯画面 靠左距离";
+Blockly.Msg.HANDPOSE_VIDEO_TOP_SHOW = "靠上距离";
