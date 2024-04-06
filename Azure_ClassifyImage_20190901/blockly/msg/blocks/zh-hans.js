@@ -1,0 +1,15 @@
+Blockly.Msg.AZURECLASSIFYIMAGE_WIDTH_SHOW = "Azure Custom Vision 视讯宽度";
+Blockly.Msg.AZURECLASSIFYIMAGE_HEIGHT_SHOW = "高度";
+Blockly.Msg.AZURECLASSIFYIMAGE_DETECT_SHOW = "Azure Custom Vision 辨识";
+Blockly.Msg.AZURECLASSIFYIMAGE_GET_SHOW = "Azure Custom Vision 取得结果";
+Blockly.Msg.AZURECLASSIFYIMAGE_GET_OBJECTDATA_SHOW = "Azure Custom Vision 取得资料 索引 ";
+Blockly.Msg.AZURECLASSIFYIMAGE_GET_OBJECTS_SHOW = "Azure Custom Vision 取得资料笔数";
+Blockly.Msg.AZURECLASSIFYIMAGE_RESULT_SHOW = "结果";
+Blockly.Msg.AZURECLASSIFYIMAGE_OPACITY_SHOW = "透明度";
+Blockly.Msg.AZURECLASSIFYIMAGE_SETTINGS_SHOW ="Azure Custom Vision 设定";
+Blockly.Msg.AZURECLASSIFYIMAGE_SHOWTIME_SHOW = "显示截图(秒)";
+Blockly.Msg.AZURECLASSIFYIMAGE_ENDPOINTHOST_SHOW ="Endpoint Host";
+Blockly.Msg.AZURECLASSIFYIMAGE_PREDICTIONKEY_SHOW = "Prediction Key";
+Blockly.Msg.AZURECLASSIFYIMAGE_PROJECTID_SHOW = "Project Id";
+Blockly.Msg.AZURECLASSIFYIMAGE_ITERATIONNAME_SHOW = "Iteration Name";
+Blockly.Msg.AZURECLASSIFYIMAGE_GET_MAX_SHOW = "Azure Custom Vision 取得最大";
