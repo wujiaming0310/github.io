@@ -1,0 +1,384 @@
+<!-- 
+Author : ChungYi Fu (Kaohsiung, Taiwan)   2021/2/6 14:00
+https://www.facebook.com/francefu
+
+Try it!
+https://fustyles.github.io/webduino/CautionArea/Webcam_CautionArea_Rect.html
+
+Chrome瀏覽器設定須更改：允許開啟不安全內容。否則http未加密連結會被阻擋無法串流！若將網頁下載到本機執行，則不用更改安全性設定。
+瀏覽器網址執行 chrome://settings/content/siteDetails?site=https://fustyles.github.io
+
+音效下載 (將音效剪輯長度成0.2秒再使用)
+https://taira-komori.jpn.org/freesoundtw.html
+
+線上音效剪輯
+https://mp3cut.net/tw/
+-->
+
+<!DOCTYPE html>
+<head>
+  <title>框選區域警示區(桌機視訊)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"> </script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.1.0"> </script>  
+</head>
+<body>
+<button onclick="location.href=location.pathname;">前視鏡頭</button>&nbsp;&nbsp;<button onclick="location.href='?back';">後視鏡頭</button><br>
+<video id="video" width="320" height="240" style="display:none" preload autoplay loop muted></video>
+<canvas id="canvas"></canvas><br>
+<table>
+<tr> 
+<td colspan="2">
+  物件定位
+  <select id="mark">
+  <option value="center">中</option>  
+  <option value="upper">上</option>
+  <option value="lower" selected="selected">下</option>
+  <option value="left">左</option>
+  <option value="right">右</option>
+  </select>
+	物件追蹤
+	<select id="object" onchange="count.innerHTML='';">
+	  <option value="person" selected="selected">person</option>
+	  <option value="bicycle">bicycle</option>
+	  <option value="car">car</option>
+	  <option value="motorcycle">motorcycle</option>
+	  <option value="airplane">airplane</option>
+	  <option value="bus">bus</option>
+	  <option value="train">train</option>
+	  <option value="truck">truck</option>
+	  <option value="boat">boat</option>
+	  <option value="traffic light">traffic light</option>
+	  <option value="fire hydrant">fire hydrant</option>
+	  <option value="stop sign">stop sign</option>
+	  <option value="parking meter">parking meter</option>
+	  <option value="bench">bench</option>
+	  <option value="bird">bird</option>
+	  <option value="cat">cat</option>
+	  <option value="dog">dog</option>
+	  <option value="horse">horse</option>
+	  <option value="sheep">sheep</option>
+	  <option value="cow">cow</option>
+	  <option value="elephant">elephant</option>
+	  <option value="bear">bear</option>
+	  <option value="zebra">zebra</option>
+	  <option value="giraffe">giraffe</option>
+	  <option value="backpack">backpack</option>
+	  <option value="umbrella">umbrella</option>
+	  <option value="handbag">handbag</option>
+	  <option value="tie">tie</option>
+	  <option value="suitcase">suitcase</option>
+	  <option value="frisbee">frisbee</option>
+	  <option value="skis">skis</option>
+	  <option value="snowboard">snowboard</option>
+	  <option value="sports ball">sports ball</option>
+	  <option value="kite">kite</option>
+	  <option value="baseball bat">baseball bat</option>
+	  <option value="baseball glove">baseball glove</option>
+	  <option value="skateboard">skateboard</option>
+	  <option value="surfboard">surfboard</option>
+	  <option value="tennis racket">tennis racket</option>
+	  <option value="bottle">bottle</option>
+	  <option value="wine glass">wine glass</option>
+	  <option value="cup">cup</option>
+	  <option value="fork">fork</option>
+	  <option value="knife">knife</option>
+	  <option value="spoon">spoon</option>
+	  <option value="bowl">bowl</option>
+	  <option value="banana">banana</option>
+	  <option value="apple">apple</option>
+	  <option value="sandwich">sandwich</option>
+	  <option value="orange">orange</option>
+	  <option value="broccoli">broccoli</option>
+	  <option value="carrot">carrot</option>
+	  <option value="hot dog">hot dog</option>
+	  <option value="pizza">pizza</option>
+	  <option value="donut">donut</option>
+	  <option value="cake">cake</option>
+	  <option value="chair">chair</option>
+	  <option value="couch">couch</option>
+	  <option value="potted plant">potted plant</option>
+	  <option value="bed">bed</option>
+	  <option value="dining table">dining table</option>
+	  <option value="toilet">toilet</option>
+	  <option value="tv">tv</option>
+	  <option value="laptop">laptop</option>
+	  <option value="mouse">mouse</option>
+	  <option value="remote">remote</option>
+	  <option value="keyboard">keyboard</option>
+	  <option value="cell phone">cell phone</option>
+	  <option value="microwave">microwave</option>
+	  <option value="oven">oven</option>
+	  <option value="toaster">toaster</option>
+	  <option value="sink">sink</option>
+	  <option value="refrigerator">refrigerator</option>
+	  <option value="book">book</option>
+	  <option value="clock">clock</option>
+	  <option value="vase">vase</option>
+	  <option value="scissors">scissors</option>
+	  <option value="teddy bear">teddy bear</option>
+	  <option value="hair drier">hair drier</option>
+	  <option value="toothbrush">toothbrush</option>
+	</select>
+	<span id="count" style="color:red">0</span>
+</td>							
+</tr>
+<tr> 
+<td>
+  分數下限
+  <select id="score">
+  <option value="1.0">1</option>
+  <option value="0.9">0.9</option>
+  <option value="0.8">0.8</option>
+  <option value="0.7">0.7</option>
+  <option value="0.6">0.6</option>
+  <option value="0.5" selected="selected">0.5</option>
+  <option value="0.4">0.4</option>
+  <option value="0.3">0.3</option>
+  <option value="0.2">0.2</option>
+  <option value="0.1">0.1</option>
+  <option value="0">0</option>
+  </select>
+</td>
+<td>
+<input id="complementary" type="checkbox">區域反向偵測
+</td>
+</tr> 				
+</table>
+<input id="hmirror" type="checkbox">水平鏡像
+<br><br>
+<input type="checkbox" id="chkAud">警示音(mp3)&nbsp;&nbsp;<input type="text" id="aud" size="13" value="https://fustyles.github.io/webduino/paino_c.mp3"><input type="button" id="setsource" value="重設來源" onclick="alarm.src=document.getElementById('aud').value;">
+<br>
+<input type="checkbox" id="chkLine">Line通知權杖<input type="text" id="token" size="12" value=""><input type="button" value="傳送影像" onclick="SendCapturedImage();">
+<br>
+<iframe id="ifr" style="display:none;position:absolute" src=""></iframe>
+<div style="display:none">
+<form id="myForm" action="https://script.google.com/macros/s/AKfycbyp1xvWg-UCSrLsL8zt-ba_0n96uNTpAFyRry9ifCnRbtK-vgg/exec" method="post" target="sendcapturedimage">
+<input type="text" id="myFilename" name="myFilename" value="Caution Area" style="display:none">
+<input type="text" id="myToken" name="myToken" value="" style="display:none">
+<textarea id="myFile" name="myFile" rows="10" cols="50" style="display:none"></textarea><br>
+</form>
+<iframe id="sendcapturedimage" name="sendcapturedimage" style="display:none"></iframe>
+</div>         
+<div id="position" style="color:blue;font-size:40px"></div>
+<div id="result" style="color:red"></div>
+  
+<script>
+	var video = document.getElementById('video');
+	var canvas = document.getElementById('canvas'); 
+	var context = canvas.getContext('2d');
+	var position = document.getElementById('position');   
+	var result = document.getElementById('result'); 
+
+	var mark = document.getElementById('mark');
+	var hmirror = document.getElementById('hmirror'); 
+	var complementary = document.getElementById('complementary'); 
+	var score = document.getElementById('score');
+	var count = document.getElementById('count');	
+
+	var aud = document.getElementById('aud');
+	var alarm = new Audio(aud.value);
+
+	let Model; 
+
+	var videoWidth = 320;
+	var videoHeight = 240;  
+  
+	var touch_x0=0, touch_y0=0, touch_x=0, touch_y=0;
+    var touchState = false;
+	canvas.addEventListener("touchstart", function (e) {
+		touch_x0=0;touch_y0=0;touch_x=0;touch_y=0;
+		touchState = true;		
+		e.preventDefault();
+		var rect = canvas.getBoundingClientRect();
+		touch_x0 = e.touches[0].clientX-rect.left;
+		touch_y0 = e.touches[0].clientY-rect.top;
+		touch_x = touch_x0 ;
+		touch_y = touch_y0;
+	}, false);
+	canvas.addEventListener("touchmove", function (e) {	
+		e.preventDefault();
+		var rect = canvas.getBoundingClientRect();
+		touch_x = e.touches[0].clientX-rect.left;
+		touch_y = e.touches[0].clientY-rect.top;
+	}, false);	
+	canvas.addEventListener("touchcancel", function (e) {
+		e.preventDefault();
+		touchState = false;
+	}, false);
+	canvas.addEventListener("touchend", function (e) {
+		e.preventDefault();
+		touchState = false;	
+	}, false);
+	canvas.addEventListener("mousedown", function (e) {
+		touch_x0=0;touch_y0=0;touch_x=0;touch_y=0;
+		touchState = true;		
+		e.preventDefault();
+		var rect = canvas.getBoundingClientRect();
+		touch_x0 = e.clientX-rect.left;
+		touch_y0 = e.clientY-rect.top;
+		touch_x = touch_x0 ;
+		touch_y = touch_y0;		
+	}, false);
+	canvas.addEventListener("mouseup", function (e) {	
+		e.preventDefault();
+		var rect = canvas.getBoundingClientRect();
+		touch_x = e.clientX-rect.left;
+		touch_y = e.clientY-rect.top;
+		touchState = false;	
+	}, false);  
+  
+	window.onload = function() {LoadModel();}  
+	function LoadModel() {
+		result.innerHTML = "請等待下載物件辨識模型...";
+		cocoSsd.load().then(model => {
+			Model = model;
+			result.innerHTML = "";
+			startVideo();
+		}); 
+	}  
+
+	function startVideo() {
+		if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+			console.log("enumerateDevices() not supported.");
+			return;
+		}
+
+		var back = {audio: false,video: {facingMode: 'user',width: videoWidth,height: videoHeight}};
+		navigator.mediaDevices.enumerateDevices()
+		.then(function(devices) {
+			devices.forEach(function(device) {
+				if (device.kind=="videoinput"&&device.label.includes("facing back")) {
+				if (device.deviceId=='')
+					back = {audio: false,video: {facingMode: 'environment',width: videoWidth,height: videoHeight} };
+				else
+					back = {audio: false,video: {deviceId: {'exact':device.deviceId}, facingMode: 'environment',width: videoWidth,height: videoHeight} };
+				}
+			});
+
+			if (location.search.toLowerCase().indexOf("?back")!=-1)
+			var userMedia = back;
+			else
+			var userMedia = {audio: false,video: {facingMode: 'user',width: videoWidth,height: videoHeight}};
+
+			video.style.visibility="hidden";
+			video.style.position="absolute";
+			navigator.mediaDevices
+			.getUserMedia(userMedia)
+			.then(stream => {
+				video.srcObject = stream
+				video.onloadedmetadata = () => {       
+					video.play();
+					canvas.setAttribute("width", video.width);
+					canvas.setAttribute("height", video.height);          
+					setTimeout(function(){DetectVideo(); }, 100);
+				}
+			})  
+		}) 
+	} 
+
+	async function DetectVideo() {
+		if (hmirror.checked) {
+		  context.translate((canvas.width + video.width) / 2, 0);
+		  context.scale(-1, 1);
+		  context.drawImage(video, 0, 0, video.width, video.height);
+		  context.setTransform(1, 0, 0, 1, 0, 0); 
+		} else {
+		  context.drawImage(video, 0, 0, video.width, video.height);	
+		}
+		
+		if (touchState == false) {
+			context.beginPath();
+			context.lineWidth = "2";
+			context.strokeStyle = "red";  
+			context.rect(touch_x0, touch_y0, touch_x-touch_x0, touch_y-touch_y0);
+			context.stroke();
+		}
+  
+		await Model.detect(canvas).then(predictions => { 
+			var objectCount=0;  //紀錄偵測到物件總數		
+			result.innerHTML = "";  
+
+			if (predictions.length>0) {
+				for (var i=0;i<predictions.length;i++) {
+					const x = Number(predictions[i].bbox[0]);
+					const y = Number(predictions[i].bbox[1]);
+					const width = Number(predictions[i].bbox[2]);
+					const height = Number(predictions[i].bbox[3]);		
+					  var mark_x = 0;
+					  var mark_y = 0;
+					  if (mark.value=="upper") {
+						mark_x = x + width/2;
+						mark_y = y;
+					  } 
+					  else if (mark.value=="lower") {
+						mark_x = x + width/2;
+						mark_y = y + height;
+					  }
+					  else if (mark.value=="left") {
+						mark_x = x;
+						mark_y = y + height/2;
+					  }
+					  else if (mark.value=="right") {
+						mark_x = x + width;
+						mark_y = y + height/2;
+					  }
+					  else if (mark.value=="center") {
+						mark_x = x + width/2;
+						mark_y = y + height/2;
+					  }	
+		  
+					if (predictions[i].class==object.value&&predictions[i].score>=score.value) {
+					    var bottom_x = mark_x;
+						var bottom_y = mark_y;
+						context.fillStyle="#00FFFF";			  
+						context.beginPath();
+						context.arc(bottom_x,bottom_y,5,0,Math.PI*2,true);
+						context.fill();
+						context.closePath();
+						
+						var state =false;
+						if (((bottom_x-touch_x0)*(bottom_x-touch_x)<=0)&&((bottom_y-touch_y0)*(bottom_y-touch_y)<=0)&&(!complementary.checked)&&(alarm.paused||alarm.ended)) {
+							state=true;
+						}
+						else if (!(((bottom_x-touch_x0)*(bottom_x-touch_x)<=0)&&((bottom_y-touch_y0)*(bottom_y-touch_y)<=0))&&(complementary.checked)&&(alarm.paused||alarm.ended)) {
+							state=true;
+						}
+						if (state==true) {
+						  if (chkAud.checked) {
+							alarm.src = aud.value;
+							alarm.play();
+						  }
+						  if (chkLine.checked)
+							ifr.src = 'http://linenotify.com/notify.php?token='+token.value+'&message=警示區內有人員';	
+						}							
+					}
+
+					result.innerHTML+= "[ "+i+" ] "+predictions[i].class+", "+Math.round(predictions[i].score*100)+"%, "+Math.round(x)+", "+Math.round(y)+", "+Math.round(width)+", "+Math.round(height)+"<br>";
+					
+					if (predictions[i].class==object.value) {
+						objectCount++;
+					} 				
+				}
+				count.innerHTML = objectCount;				
+			}
+			else {
+				position.innerHTML = "";
+				result.innerHTML = "Unrecognizable";
+			}
+			setTimeout(function(){DetectVideo(); }, 100);
+		});
+	}
+	
+function SendCapturedImage() {
+	//var date = new Date();
+	//myFilename.value = date.getFullYear()+"_"+(date.getMonth()+1)+"_"+date.getDate()+"_"+date.getHours()+"_"+date.getMinutes()+"_"+date.getSeconds()+".png";
+	myFile.value = canvas.toDataURL();
+	myToken.value = token.value;
+	myForm.submit();
+}		
+</script>
+
+</body>
+</html>
