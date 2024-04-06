@@ -1,0 +1,190 @@
+<category id="catesp32cam">
+    <block type="esp32cam_system">
+        <value name="url">
+          <block type="text">
+            <field name="TEXT">http://192.168.xxx.xxx</field>
+          </block>
+        </value>    
+        <value name="P1">
+          <block type="text">
+            <field name="TEXT">2</field>
+          </block>
+        </value>
+        <value name="P2">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+    </block>
+    <block type="esp32cam_getstill">
+        <value name="url">
+          <block type="text">
+            <field name="TEXT">http://192.168.xxx.xxx/capture</field>
+          </block>
+        </value>    
+    </block>
+    <block type="esp32cam_stream">
+        <value name="url">
+          <block type="text">
+            <field name="TEXT">http://192.168.xxx.xxx:81/stream</field>
+          </block>
+        </value>    
+    </block>    
+    <block type="esp32cam_custom">
+        <value name="url">
+          <block type="text">
+            <field name="TEXT">http://192.168.xxx.xxx</field>
+          </block>
+        </value>    
+        <value name="cmd">
+          <block type="esp32cam_cmd">
+          </block> 
+        </value>
+        <value name="P1">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+        <value name="P2">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+        <value name="P3">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+        <value name="P4">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+        <value name="P5">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+        <value name="P6">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+        <value name="P7">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+        <value name="P8">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+        <value name="P9">
+          <block type="text">
+            <field name="TEXT"></field>
+          </block>
+        </value>
+    </block>
+    <block type="esp32cam_car">
+        <value name="url">
+          <block type="text">
+            <field name="TEXT">http://</field>
+          </block>
+        </value>    
+    </block>       
+    <block type="esp32cam_cmd">
+    </block> 
+    <block type="esp32cam_getangle">
+        <value name="angle">
+          <block type="math_number">
+            <field name="NUM">90</field>
+          </block>
+        </value>          
+    </block>     
+    <block type="esp32cam_getresponse">
+    </block> 
+    <block type="esp32cam_clearresponse">
+    </block>  
+  <block type="controls_whileUntil" id="sV@C8N:u~MCjkfM{^D2," x="38" y="-188">
+    <field name="MODE">WHILE</field>
+    <value name="BOOL">
+      <block type="logic_boolean" id="E?u8?6r@doM0!lk+OSu:">
+        <field name="BOOL">TRUE</field>
+      </block>
+    </value>
+    <statement name="DO">
+      <block type="variables_set" id="(ds2]{esCkIQo1t+Bk^#">
+        <field name="VAR">Data</field>
+        <value name="VALUE">
+          <block type="esp32cam_getresponse" id="o4|KJr]PU+m?dFC]qK[`"></block>
+        </value>
+        <next>
+          <block type="controls_if" id="NQ^@j*;w[ub1;5f9=gn]">
+            <value name="IF0">
+              <block type="logic_compare" id=";rSy~[jTIRUMB;IF*Ptq">
+                <field name="OP">NEQ</field>
+                <value name="A">
+                  <block type="variables_get" id="rk1In0[zf:-ML/jp|L/.">
+                    <field name="VAR">Data</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="text" id=")lPOFDv8?*1k8t.94(Eu">
+                    <field name="TEXT"></field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="controls_flow_statements" id="tX/Bv|#z`ek5URDbC!9,">
+                <field name="FLOW">BREAK</field>
+              </block>
+            </statement>
+            <next>
+              <block type="delay" id="5QlEXAZn[J2_I=~ud)I*">
+                <value name="secs_">
+                  <block type="math_number" id="bQ9.L]`Uz7s;u:_US#)D">
+                    <field name="NUM">0.01</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="esp32cam_iframe">  
+    <value name="url_">
+      <block type="text">
+        <field name="TEXT">about:blank</field>
+      </block>
+    </value>
+    <value name="width_">
+      <block type="math_number">
+        <field name="NUM">600</field>
+      </block>
+    </value>
+    <value name="height_">
+      <block type="math_number">
+        <field name="NUM">450</field>
+      </block>
+    </value>
+    <value name="left_">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <value name="top_">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>  
+    <value name="zindex_">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>     
+  </block>    
+</category>
