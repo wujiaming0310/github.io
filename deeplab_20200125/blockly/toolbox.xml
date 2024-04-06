@@ -1,0 +1,16 @@
+<category id="deeplab">
+  <block type="deeplab_video">
+    <value name="width_">
+      <block type="math_number">
+        <field name="NUM">320</field>
+      </block>
+    </value> 
+    <value name="height_">
+      <block type="math_number">
+        <field name="NUM">240</field>
+      </block>
+    </value>     
+  </block>    
+  <block type="deeplab_get"> 
+  </block>  
+</category>
