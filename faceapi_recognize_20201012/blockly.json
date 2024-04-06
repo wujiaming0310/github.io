@@ -1,0 +1,16 @@
+{
+  "types": ["faceapirecognize_video", "faceapirecognize_video_one", "faceapirecognize_video_capture", "faceapirecognize_video_base64", "faceapirecognize_detect", "faceapirecognize_number", "faceapirecognize_get", "faceapirecognize_clear", "faceapirecognize_state", "faceapirecognize_video_position","faceapirecognize_startvideo_media","faceapirecognize_startvideo_stream","faceapirecognize_canvas_get", "faceapirecognize_state", "faceapirecognize_recognitied"],
+  "category": "catPlus",
+  "scripts": [
+    "blockly/blocks.js",
+    "blockly/javascript.js"
+  ],
+  "dependencies": [
+    "faceapi-recognition_video.js",
+    "faceapi-recognition.js",
+    "face-api.min.js"
+  ],
+  "msg": "blockly/msg",
+  "blocksMsg": "blockly/msg/blocks",
+  "toolbox": "blockly/toolbox.xml"
+}
